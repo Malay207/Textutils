@@ -37,9 +37,7 @@ function Textarea(props) {
 
     }
     const copy = () => {
-        let text = document.getElementById("myBox");
-        text.select();
-        navigator.clipboard.writeText(text.value);
+        navigator.clipboard.writeText(text);
         props.alrt("Success", "Text Copied")
     }
     const remove = () => {
@@ -49,7 +47,7 @@ function Textarea(props) {
     }
     const minus_extraspace = () => {
 
-        let newtext = text.split(/[ ]+/).length;
+        let newtext = text.split(/\s+/).length;
         return newtext;
 
     }
@@ -57,27 +55,27 @@ function Textarea(props) {
     return (
         <>
             <div className="container my-3">
-                <h1>Enter the text to analyze below</h1>
+                <h1 className='mb-3'>Textutils-word counter,lettet counter,Lowercase to uppercase,uppercase to lowercase</h1>
                 <div className="mb-3">
                     <textarea className="form-control" value={text} onChange={textchange} id="myBox" rows="8" placeholder='Enter the text'></textarea>
                 </div>
-                <button className="btn btn-primary mx-3" onClick={upcase}>Convert to Uppercase</button>
-                <button className="btn btn-primary mx-3" onClick={locase}>Convert to Lowercase</button>
-                <button className="btn btn-primary mx-3" onClick={Clear}>Clear text</button>
-                <button className="btn btn-primary mx-3 email" onClick={email}>Found Email</button>
-                <button className="btn btn-primary mx-3 " onClick={copy}>Copy text</button>
+                <button disabled={text.length === 0} className="btn btn-primary mx-3 my-3" onClick={upcase}>Convert to Uppercase</button>
+                <button disabled={text.length === 0} className="btn btn-primary mx-3 my-3" onClick={locase}>Convert to Lowercase</button>
+                <button disabled={text.length === 0} className="btn btn-primary mx-3 my-3" onClick={Clear}>Clear text</button>
+                <button disabled={text.length === 0} className="btn btn-primary mx-3 my-3" onClick={email}>Found Email</button>
+                <button disabled={text.length === 0} className="btn btn-primary mx-3 my-3" onClick={copy}>Copy text</button>
                 <div className="count">
-                    <button className="btn btn-primary mx-3 my-3 " onClick={remove}>Remove Extra space</button>
+                    <button disabled={text.length === 0} className="btn btn-primary mx-3 my-3 " onClick={remove}>Remove Extra space</button>
                     <div className="count">
                         <p>
                             <h1>
                                 Your Text Summery</h1>
-                            {text.length === 0 ? 0 : text.split(" ").length} numbers of words & {(text.length - minus_extraspace()) + 1} numbers of Letter
+                            {text.split(/\s+/).filter((e) => { return e.length != 0 }).length} numbers of words & {(text.length - minus_extraspace()) + 1} numbers of Letter
                         </p>
                     </div>
                     <div className="time">
                         <p>
-                            You read all words in: {text.length === 0 ? 0 : text.split(" ").length * 0.08} s
+                            You read all words in: {text.split(/\s+/).filter((e) => { return e.length != 0 }).length * 0.08} s
                         </p>
                     </div>
                     <div className="email">
